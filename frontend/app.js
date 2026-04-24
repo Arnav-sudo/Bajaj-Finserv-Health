@@ -1,5 +1,5 @@
 /* ── Config ──────────────────────────────────────────────────── */
-const API_URL = '/bfhl';
+const API_URL = 'http://localhost:3000/bfhl'; // CHANGE THIS TO YOUR VERCEL BACKEND URL AFTER DEPLOYMENT
 
 const EXAMPLES = {
   basic:   ['A->B', 'A->C', 'B->D', 'C->E', 'E->F'],
