@@ -28,3 +28,5 @@ app.post('/bfhl', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`🚀 BFHL API → http://localhost:${PORT}`));
+
+module.exports = app;

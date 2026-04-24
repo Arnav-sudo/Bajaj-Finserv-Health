@@ -1,5 +1,5 @@
 /* ── Config ──────────────────────────────────────────────────── */
-const API_URL = 'http://localhost:3000/bfhl';
+const API_URL = '/bfhl';
 
 const EXAMPLES = {
   basic:   ['A->B', 'A->C', 'B->D', 'C->E', 'E->F'],
@@ -65,7 +65,7 @@ async function submit() {
     const json = await res.json();
     renderResults(json);
   } catch (err) {
-    showError(`API Error: ${err.message}. Is the backend running on port 3000?`);
+    showError(`API Error: ${err.message}. Is the backend running?`);
   } finally {
     loader.classList.add('hidden');
     submitBtn.disabled = false;
