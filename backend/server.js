@@ -13,6 +13,9 @@ app.use(express.json());
 // Health check
 app.get('/bfhl', (_req, res) => res.status(200).json({ operation_code: 1 }));
 
+// Root route (for Vercel deployment check)
+app.get('/', (_req, res) => res.status(200).send('BFHL Backend is running! Send a POST request to /bfhl'));
+
 // Main endpoint
 app.post('/bfhl', (req, res) => {
   try {
