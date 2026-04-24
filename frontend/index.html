@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BFHL — Graph & Tree Visualizer</title>
+  <meta name="description" content="Visualize parent-child relationships as trees, detect cycles, and analyze graph structures via the BFHL API." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Background particles -->
+  <div class="bg-grid"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">⬡</span>
+        <span class="logo-text">BFHL <span class="logo-accent">Visualizer</span></span>
+      </div>
+      <div class="header-badge">REST API · Graph Engine</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Input Card -->
+    <section class="card input-card" id="input-section">
+      <div class="card-header">
+        <h1>Graph Relationship Processor</h1>
+        <p>Enter edges like <code>A->B</code>, one per line or comma-separated</p>
+      </div>
+
+      <div class="input-area">
+        <textarea
+          id="edge-input"
+          placeholder="A->B&#10;B->C&#10;A->D&#10;X->Y&#10;Y->Z&#10;Z->X"
+          spellcheck="false"
+        ></textarea>
+        <div class="input-hints">
+          <span>✅ Valid: <code>A->B</code></span>
+          <span>❌ Invalid: <code>AB->C</code>, <code>a->b</code>, <code>A->A</code></span>
+        </div>
+      </div>
+
+      <div class="example-btns">
+        <span class="label">Try example:</span>
+        <button class="example-btn" data-example="basic" id="ex-basic">🌳 Basic Tree</button>
+        <button class="example-btn" data-example="cycle" id="ex-cycle">🔄 With Cycle</button>
+        <button class="example-btn" data-example="complex" id="ex-complex">🧠 Complex</button>
+        <button class="example-btn" data-example="invalid" id="ex-invalid">❌ Invalids</button>
+      </div>
+
+      <div class="action-row">
+        <button class="submit-btn" id="submit-btn">
+          <span class="btn-icon">⚡</span>
+          <span class="btn-text">Process Graph</span>
+          <div class="btn-shine"></div>
+        </button>
+        <button class="clear-btn" id="clear-btn">Clear</button>
+        <div class="api-url">
+          POST <code id="api-url-display">http://localhost:3000/bfhl</code>
+        </div>
+      </div>
+
+      <div class="error-banner hidden" id="error-banner">
+        <span class="error-icon">⚠️</span>
+        <span id="error-msg">Something went wrong</span>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section class="results hidden" id="results-section">
+
+      <!-- Summary Cards -->
+      <div class="summary-row" id="summary-row">
+        <div class="stat-card trees">
+          <div class="stat-icon">🌳</div>
+          <div class="stat-value" id="stat-trees">0</div>
+          <div class="stat-label">Trees</div>
+        </div>
+        <div class="stat-card cycles">
+          <div class="stat-icon">🔄</div>
+          <div class="stat-value" id="stat-cycles">0</div>
+          <div class="stat-label">Cycles</div>
+        </div>
+        <div class="stat-card largest">
+          <div class="stat-icon">👑</div>
+          <div class="stat-value" id="stat-largest">—</div>
+          <div class="stat-label">Largest Root</div>
+        </div>
+        <div class="stat-card invalid">
+          <div class="stat-icon">❌</div>
+          <div class="stat-value" id="stat-invalid">0</div>
+          <div class="stat-label">Invalid</div>
+        </div>
+        <div class="stat-card duplicates">
+          <div class="stat-icon">🔁</div>
+          <div class="stat-value" id="stat-dupes">0</div>
+          <div class="stat-label">Duplicates</div>
+        </div>
+      </div>
+
+      <!-- Hierarchies -->
+      <div class="section-title">
+        <span class="section-icon">🗂️</span> Hierarchies
+      </div>
+      <div class="hierarchies-grid" id="hierarchies-grid"></div>
+
+      <!-- Bottom panels -->
+      <div class="panels-row">
+        <div class="panel" id="invalid-panel">
+          <div class="panel-header">
+            <span>❌ Invalid Entries</span>
+            <span class="panel-count" id="invalid-count">0</span>
+          </div>
+          <div class="panel-body" id="invalid-list"></div>
+        </div>
+        <div class="panel" id="dupes-panel">
+          <div class="panel-header">
+            <span>🔁 Duplicate Edges</span>
+            <span class="panel-count" id="dupes-count">0</span>
+          </div>
+          <div class="panel-body" id="dupes-list"></div>
+        </div>
+        <div class="panel json-panel">
+          <div class="panel-header">
+            <span>📦 Raw JSON</span>
+            <button class="copy-btn" id="copy-json">Copy</button>
+          </div>
+          <pre class="json-viewer" id="json-viewer"></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Loader -->
+    <div class="loader hidden" id="loader">
+      <div class="spinner"></div>
+      <span>Processing graph…</span>
+    </div>
+  </main>
+
+  <footer>
+    <p>BFHL Graph Visualizer · Built with Node.js &amp; Vanilla JS</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
